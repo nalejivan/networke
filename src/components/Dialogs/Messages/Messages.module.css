@@ -1,0 +1,4 @@
+.message{
+    border-bottom: 1px #333 solid;
+    overflow-y: scroll;
+  }

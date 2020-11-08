@@ -1,0 +1,16 @@
+.top{
+    text-align: left;
+    color: gold;
+    padding: 0 0 0 8px;
+    font-size: 18px;
+    display: initial;
+}
+.login_linck{
+    padding: 2px 8px 0 0;
+    font-size: 18px;
+    float: right;
+    display: initial;
+}
+.login_linck a{
+    color:#fff;
+}

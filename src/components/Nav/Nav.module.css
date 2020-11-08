@@ -1,0 +1,11 @@
+.conteiner a{
+  font-size: 15px;
+  text-decoration: none;
+  padding: 1px 3px;
+}
+.link{
+  color: #fff;
+}
+.active.active{
+  color: gold;
+}

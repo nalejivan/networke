@@ -1,0 +1,11 @@
+.loading{
+    display: block;
+    position: absolute;
+    text-align: center;
+    width: 50px;
+    font-size: 40px;
+    left: 50%;
+    margin-left: -25px;
+    top: 70px;
+    padding: 5px;
+}

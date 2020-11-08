@@ -1,0 +1,13 @@
+.dialog{
+    border-bottom: 1px #333 solid;
+    border-right: 1px #333 solid;
+    overflow-y: scroll;
+  }
+  .dialog img{
+    width: 30px;
+    float: left;
+    padding: 3px;
+  }
+  .user{
+    padding: 6px;
+  }

@@ -1,19 +1,56 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-/*
-!Logon
- TODO: 923i2
- ?
-*/
+import { Button, Form, InputGroup } from 'react-bootstrap';
+import { required, minLenght, emailValid } from '../../utils/validation/validation';
+import s from './Login.module.css';
 
+const minLenght4 = minLenght(4);
+const loginInput = ({input, label, placeholder, type, meta: { touched, error, warning } }) => (
+  <Form.Group>
+    <Form.Label>{label}</Form.Label>
+    <Form.Control {...input} placeholder={placeholder} type={type}/>
+    
+      {touched && ((error && <div className="text-danger" variant={'sec'}>{error}</div>) || (warning && <div className="alert alert-danger" variant={'warning'}>{warning}</div>))}
+    
+  </Form.Group>
+)
+
+const passInput = ({input, label, placeholder, type, meta: { touched, error, warning } }) => (
+  <Form.Group>
+  <Form.Label>{label}</Form.Label>
+    <InputGroup className="mb-3">
+      <InputGroup.Prepend>
+        <InputGroup.Checkbox aria-label="Checkbox for following text input" />
+      </InputGroup.Prepend>
+      <Form.Control {...input} placeholder={placeholder} type={type}/>
+    </InputGroup>
+ 
+      {touched && ((error && <div className="text-danger" variant={'sec'}>{error}</div>) || (warning && <div className="alert alert-danger" variant={'warning'}>{warning}</div>))}
+  
+  </Form.Group>
+);
 
 const From = (props) => {
-    const { handleSubmit } = props;
+    const { handleSubmit, pristine, submitting } = props;
     return (
-      <form onSubmit={handleSubmit}>
-        <div><Field type="text" name="email" placeholder="login" component={"input"}/></div>
-        <div><Field type="password" name="password" placeholder="password" component={"input"}/></div>
-        <div><input type="submit" name="in" value="Login" /></div>
+      <form onSubmit={handleSubmit} className={s.form}>
+        <div><Field type="text" 
+                    name="email" 
+                    label="Login email:"
+                    placeholder="login" 
+                    component={loginInput}
+                    validate={[required, minLenght4, emailValid]}/></div>
+        <div><Field type="password" 
+                    name="password" 
+                    label="Password:"
+                    placeholder="password" 
+                    component={passInput}
+                    validate={[required, minLenght4]}/></div>
+        <div>
+          {props.error && <div className="text-danger"> {props.error} </div>}
+        </div>
+        <div><Button disabled={pristine || submitting} variant="primary" type="submit">Sign in</Button></div>
+        
       </form>
     )
   }

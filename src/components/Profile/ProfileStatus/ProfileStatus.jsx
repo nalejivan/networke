@@ -1,49 +1,38 @@
 import React from 'react';
-import s from './ProfileStatus.module.css';
-import StatusForm from './StatusForm'
-
+import StatusForm from './StatusForm';
+import { Alert } from 'react-bootstrap';
+/* 
+TODO: сдеать статусы собятия при наведении мыши передать форме
+*/
 class ProfileStatus  extends React.Component  {
   constructor(props){
-    super(props);
+    super(props)
     this.state = {
       flag: false
     }
   }
-  active = e => {
-    this.setState({flag: true})
-  }
-  diactive = e => {
-    this.setState({flag: false})
-  }
-  onChangeStatus = status => { this.props.setStatus(status) }
+  active = e => this.setState({flag: true});
+  
+  diactive = e => this.setState({flag: false});
 
-  add = (e) => {
-    if(e.charCode === 13){
-      this.props.putStatus(e.target.value)
-    }
-  }
+  putStatus = (e) => this.props.putStatus(e.status);
+
   render(){
     return(
         this.state.flag
           ?
-            <div className={s.status}>
               <StatusForm 
-                onSubmit={this.onChangeStatus}
-                onChange={this.onChangeStatus}
+                onSubmit={this.putStatus}
+                // onChange={this.onChangeStatus}
+                // onMouseOut={e=>{this.diactive(e)}}
                 initialValues={{status: this.props.status}}
-                
               />
-            {/* <input 
-              onChange={e=>{this.onChangeStatus(e.target.value)}} 
-              onMouseOut={e=>{this.diactive(e)}} 
-              onKeyPress={this.add}
-              type="text" value={this.props.status}/> */}
-          </div> 
+          
         : 
         <div>
-        <span className={s.status} onMouseOver={e=>{this.active(e)}} >
-          {this.props.status}
-        </span>
+          <Alert variant={'warning'} onMouseOver={e=>{this.active(e)}}>
+              status: {this.props.status !== null? this.props.status: ''}  
+          </Alert>
       </div> 
     )
   }

@@ -64,16 +64,11 @@ const authApi = {
       })
       .catch(err => console.error(err))
   },
-  loginData: (email, password, rememberMe, captcha) => {
-    return instance.post(`auth/login`, {
-      email, password, rememberMe, captcha
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  login: (email, password, rememberMe, captcha) => {
+    return instance.post(`auth/login`, { email, password, rememberMe});
+  },
+  logOut: () => {
+    return instance.delete(`auth/login`);
   }
   
 }

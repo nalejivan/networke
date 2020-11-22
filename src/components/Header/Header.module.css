@@ -1,8 +1,7 @@
 .top{
     text-align: left;
-    color: gold;
+    color: #333;
     padding: 0 0 0 8px;
-    font-size: 18px;
     display: initial;
 }
 .login_linck{

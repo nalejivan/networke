@@ -2,13 +2,13 @@
   padding: 0;
   margin: 0;
 }
-.conteiner { 
+.conteinerRow { 
   display: grid;
   grid-template-areas: 
   "header header header" 
   "nav content content"
   "footer footer footer";
-  grid-template-rows: 30px 20fr;
+  grid-template-rows: 42px 20fr;
   grid-template-columns: 2fr 10fr;
   grid-column-gap: 0.1em;
   grid-row-gap: 0.1em;
@@ -26,6 +26,7 @@
   background-color: rgb(76, 219, 152);
   height: calc(100vh - 30px);
   overflow: scroll;
+  padding: 5px;
 }
 .footer{
   grid-area: footer;

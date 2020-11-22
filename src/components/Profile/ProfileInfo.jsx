@@ -1,12 +1,9 @@
 import React from 'react';
-import Prelouder from '../common/prelouder/prelouder';
 import ProfileStatus from './ProfileStatus/ProfileStatus'
 
 const ProfileInfo = (props) => {
-  if(!props.userProfile){
-    return <Prelouder isFetching={true}/>
-  } 
   return(
+    //! НЕПРАВИЛЬНАЯ ПЕРЕРЕСОВКА ПРОФИЛЬ СТАТУС ПРИ НАВЕДЕНИИ НА ПОЛЕ
     <div>
       <ProfileStatus 
       status={props.status} 

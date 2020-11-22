@@ -1,4 +1,6 @@
 import { authApi } from '../../api/api';
+import { stopSubmit } from 'redux-form';
+
 const SET_USER_DATA = 'SET_USER_DATA';
 
 /** REDUCERS */
@@ -30,29 +32,39 @@ const setUserData = (userId, login, email, auth)  => {
 }
 
 /** THUNKS */
-const getUserDataThunk = () => {
+const getUserDataThunk = () => (dispath) => {
+  return authApi.getUserData()
+    .then(response => {
+      if(response.resultCode === 0){
+        dispath(setUserData(response.data.id, response.data.login, response.data.email, true));
+      } else if(response.resultCode === 1){
+        dispath(setUserData(response.data.id, response.data.login, response.data.email, false));
+      }
+    });
+}
+const loginThunk = (email, password, rememberMe) => {
   return dispath => {
-    authApi.getUserData()
-      .then(data => {
-        if(data.resultCode === 0){
-          dispath(setUserData(data.data.id, data.data.login, data.data.email, true));
-        } else if(data.resultCode === 1){
-          dispath(setUserData(data.data.id, data.data.login, data.data.email, false));
-        }
+    authApi.login(email, password, rememberMe)
+      .then(response => {  
+        if(response.data.resultCode === 0){
+          dispath(getUserDataThunk());
+        } else {
+          let message = response.data.messages.lenght > 0 ? response.data.messages : "Some error";
+            dispath(stopSubmit('login', {_error: message}));
+        }      
       });
   }
 }
-const loginThunk = (email, password, rememberMe, captcha) => {
+const logOutThunk = () => {
   return dispath => {
-    authApi.loginData(email, password, rememberMe, captcha)
-      .then(data => {
-        // if(data.resultCode === 0){
-        //   dispath(setUserData(data.data.id, data.data.login, data.data.email, true));
-        // } else if(data.resultCode === 1){
-        //   dispath(setUserData(data.data.id, data.data.login, data.data.email, false));
-        // }
-        
+    authApi.logOut()
+      .then(response => {     
+        if(response.data.resultCode === 0){
+          dispath(setUserData(null, null, null, false));
+        } else {
+          console.error(response)
+        }      
       });
   }
 }
-export { setUserData, getUserDataThunk, loginThunk }
+export { setUserData, getUserDataThunk, loginThunk, logOutThunk }

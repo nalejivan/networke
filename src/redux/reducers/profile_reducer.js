@@ -26,7 +26,6 @@ const setUserProfile = userProfile => {
 
 /** THUNKS */
 const getProfileThunk = (userId) => {
-  debugger
   return dispatch => {
     profileApi.getProfile(userId).then( response => {
       dispatch(setUserProfile(response));

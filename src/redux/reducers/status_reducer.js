@@ -28,7 +28,7 @@ const setStatus = status => {
 const getStatusThunk = (userId) => {
   return dispatch => {
     profileApi.getStatus(userId).then( response => {
-      if(response) dispatch(setStatus(response));
+      dispatch(setStatus(response));
     })
   }
 }
@@ -36,7 +36,6 @@ const getStatusThunk = (userId) => {
 const putStatusThunk = (status) => {
   return dispatch => {
     profileApi.putStatus(status).then( response => {
-      debugger
       if(response !== undefined && response.data.resultCode === 0) dispatch(setStatus(status));
     })
   }

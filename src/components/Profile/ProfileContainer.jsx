@@ -3,82 +3,76 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from "react-router";
 import { setUserProfile, getProfileThunk } from '../../redux/reducers/profile_reducer';
 import { setStatus, getStatusThunk, putStatusThunk } from '../../redux/reducers/status_reducer';
-import ProfileInfo from './ProfileInfo';
+import { getUserProfileSelector, getStatusSelector, getUserIdSelector } from '../../redux/selectros/profile_selectors';
+import ProfileInfo from './ProfileStatus/ProfileInfo';
 import { compose } from 'redux';
 import Prelouder from '../common/prelouder/prelouder';
+import ProfileStatusWithHooks from './ProfileStatus/ProfileStatusWithHooks';
 
 class ProfileConteiner extends React.Component {
-  componentDidMount(){
-    let id;
-    if(this.props.match.params.uid !== undefined){
-      id = this.props.match.params.uid;
-    }else if(this.props.match.params.uid === undefined && this.props.userId !== undefined){
-      id = this.props.userId;
-    } 
-    if(id === undefined){
-      return this.props.history.push('./login');
-    }else{
-      this.props.getProfileThunk(id);
-      this.props.getStatusThunk(id);
+  constructor(props){
+    super(props);
+    this.state = { 
+      initional: false,
+      editStatus: false
     }
   }
-  componentDidUpdate(){
-    let ProfileData = this.props.userProfile;
-    let idUri = (this.props.match.params.uid !== undefined) 
-        ? parseInt(this.props.match.params.uid) : undefined;
-    let idState = this.props.userId;
-    
-    if(ProfileData){
-      if(idUri !== undefined){
-        if(ProfileData.userId !== idUri){
-          this.props.getProfileThunk(idUri);
-          this.props.getStatusThunk(idUri);
-        }
-      }else{
-        if(ProfileData.userId !== idState){
-          if(idState !== null){
-            this.props.getProfileThunk(idState);
-            this.props.getStatusThunk(idState);
-          }else{
-            return this.props.history.push('./login');
-          }
-        }
-      }
-    } 
+  componentDidMount(){
+    let uid = this.props.match.params.uid;
+    let userId = this.props.userId;
+    const initFn = id => {
+      Promise.all([
+        this.props.getProfileThunk(id), 
+        this.props.getStatusThunk(id)]).then(values => { 
+          this.setState({initional: true});
+      }); 
+    }
+    if(uid !== undefined){
+      initFn(uid); 
+      this.setState({editStatus: false});
+    }else if(uid === undefined && userId !== undefined){
+      initFn(userId); 
+      this.setState({editStatus: true});
+    }else if(uid === undefined &&  userId === undefined ){
+      return this.props.history.push('./login');
+    }
   }
+
   render(){
-    if(!this.props.userProfile){
+    if(!this.state.initional){
       return <Prelouder isFetching={true}/>
     } 
     return(
       (this.props.match.params.uid === undefined && this.props.userId === undefined)
         ? 
           <Redirect to={"/login"}/> 
-        :
-          <ProfileInfo {...this.props} 
-            status={this.props.status} 
-            profile={this.props.userProfile}
-            putStatus={this.props.putStatusThunk}
-            setStatus={this.props.setStatus}/>
+        : 
+          <div>
+            <ProfileStatusWithHooks 
+              status={this.props.status} 
+              putStatus={this.props.putStatusThunk}
+              setStatus={this.props.setStatus}
+              editStatus={this.state.editStatus}/>
+            <ProfileInfo userProfile={this.props.userProfile}/>
+          </div>
       
     )
   }
 }
 let mapStateToProps = (state) => {
   return {
-    userProfile: state.userProfile,
-    status: state.status, 
-    userId: state.auth.userId
+    userProfile: getUserProfileSelector(state),
+    status: getStatusSelector(state),
+    userId: getUserIdSelector(state)
   }
 }
 export default compose(
-  connect(mapStateToProps, 
-    { 
-      setUserProfile, 
-      getProfileThunk,
-      getStatusThunk, 
-      putStatusThunk,
-      setStatus
-    }),
+  connect(mapStateToProps, { 
+    setUserProfile, 
+    getProfileThunk,
+    getStatusThunk, 
+    putStatusThunk,
+    setStatus
+  }),
   withRouter
 )(ProfileConteiner)

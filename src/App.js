@@ -18,10 +18,6 @@ import Prelouder from './components/common/prelouder/prelouder';
 
 const history = createBrowserHistory();
 class App extends React.Component {
-  constructor(props){
-    super(props);
-    debugger
-  }
   componentDidMount(){
     this.props.initialAppThunk()
   }
@@ -65,4 +61,3 @@ export default compose(
   connect(mapStateToProps,{
     initialAppThunk
   }))(App);
-

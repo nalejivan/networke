@@ -3,19 +3,24 @@ import { Field, reduxForm } from 'redux-form';
 
 
 const From = (props) => {
-    const { handleSubmit } = props;
+    console.info("RENDER: From", props.initialValues)
+    const { handleSubmit, initialValues } = props;
     return (
       <form onSubmit={handleSubmit}>
-          <Field 
-              type="text" 
-              name="status" 
-              value={props.initialValues}
-              placeholder="My status" 
-              component={"input"}
-              className={"form-control"}/>
+        <Field 
+          onMouseOut={props.onMouseOut}
+          onBlur={props.onBlur}
+          autoFocus={props.autoFocus}
+          type="text" 
+          name="status" 
+          value={initialValues}
+          placeholder="My status" 
+          component={"input"}
+          className={"form-control"}/>
       </form>
     )
   }
+  //! enableReinitialize: true - нужно почитать про свойство
   let StatusForm = reduxForm({
       form: 'myStatus'
   })(From)

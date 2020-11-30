@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Users from './Users';
 import Prelouder from '../common/prelouder/prelouder';
+import { getUsersArrSelector, getPageSize, getTotalCount, getCurrentPage, getIsFetching, getFollowingInProgress} from '../../redux/selectros/users_selectors';
 
 import { setCurrentPage, getUserThunk, followThunk} from '../../redux/reducers/users_reducer';
 class UsersApiFn extends React.Component {
@@ -37,15 +38,14 @@ class UsersApiFn extends React.Component {
 
 let mapStateToProps = (state) => {
   return {
-    usersArr: state.users.usersArr,
-    pageSize: state.users.pageSize,
-    totalCount: state.users.totalCount,
-    currentPage: state.users.currentPage,
-    isFetching: state.users.isFetching,
-    followingInProgress: state.users.followingInProgress
+    usersArr: getUsersArrSelector(state),
+    pageSize: getPageSize(state),
+    totalCount: getTotalCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    followingInProgress: getFollowingInProgress(state)
   }
 }
-
 export default connect(mapStateToProps, 
   {
     setCurrentPage,

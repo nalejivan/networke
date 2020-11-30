@@ -25,12 +25,11 @@ const setStatus = status => {
 };
 
 /** THUNKS */
-const getStatusThunk = (userId) => {
-  return dispatch => {
-    profileApi.getStatus(userId).then( response => {
+const getStatusThunk = (userId) =>  dispatch => {
+  return profileApi.getStatus(userId).then( response => {
       dispatch(setStatus(response));
+      return response;
     })
-  }
 }
 
 const putStatusThunk = (status) => {

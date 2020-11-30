@@ -1,4 +1,5 @@
 import { profileApi } from '../../api/api';
+
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 
 let initialState = {
@@ -25,15 +26,11 @@ const setUserProfile = userProfile => {
 };
 
 /** THUNKS */
-const getProfileThunk = (userId) => {
-  return dispatch => {
-    profileApi.getProfile(userId).then( response => {
+const getProfileThunk = (userId) =>  dispatch => {
+    return profileApi.getProfile(userId).then( response => {
       dispatch(setUserProfile(response));
-    })
-  }
+      return response.userId;
+    });
 }
 
 export { setUserProfile, getProfileThunk };
-
-
-  

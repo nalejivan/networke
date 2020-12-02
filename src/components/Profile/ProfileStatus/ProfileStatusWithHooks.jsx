@@ -25,7 +25,7 @@ const ProfileStatusWithHooks = (props) => {
           onBlur={deactiveeditMode}
           autoFocus={true}
           onMouseOut={deactiveeditMode}
-          initialValues={{status: status}}
+          initialValues={{status}}
         />
       }
       {

@@ -5,6 +5,43 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "name": "vscode-jest-tests",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/react-scripts",
+      "args": ["test", "--env=jsdom", "--runInBand"],
+      "cwd": "${workspaceFolder}",
+      "protocol": "inspector",
+      "disableOptimisticBPs": true,
+      "skipFiles": [
+        "<node_internals>/**",
+        "${workspaceFolder}/node_modules/**",
+        "bootstrap"
+      ]
+    },
+    {
+      "name": "Launch e2e test",
+      "type": "node",
+      "request": "launch",
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "args": [
+        "--colors",
+        "--config=${workspaceFolder}/jest-e2e.config.js",
+        "--runInBand",
+        "--coverage"
+      ],
+      "runtimeArgs": [
+        "--nolazy"
+      ],
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+      },
+      "outputCapture": "std",
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against localhost",

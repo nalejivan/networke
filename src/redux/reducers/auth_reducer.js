@@ -39,7 +39,7 @@ const getUserDataThunk = () => (dispath) => {
         dispath(setUserData(response.data.id, response.data.login, response.data.email, true));
       } else if(response.resultCode === 1){
         dispath(setUserData(response.data.id, response.data.login, response.data.email, false));
-      }
+      } 
     });
 }
 const loginThunk = (email, password, rememberMe) => {

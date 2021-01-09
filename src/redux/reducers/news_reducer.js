@@ -23,7 +23,7 @@ export default news_reducer;
 
 /** ACTION CREATOS */
 
-const setNews = (text)  => {
+const addPostActionCreator = (text)  => {
   return {
     type: SET_NEWS,
     text: text
@@ -33,7 +33,7 @@ const setNews = (text)  => {
 
 const setNewsThunk = (news) => {
   return dispath => {
-    dispath(setNews(news));
+    dispath(addPostActionCreator(news));
   }
 }
-export { setNewsThunk }
+export { setNewsThunk, addPostActionCreator }

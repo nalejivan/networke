@@ -1,18 +1,24 @@
 const SET_NEWS = 'SET_NEWS';
-
+const DEL_NEWS = 'DEL_NEWS';
 /** REDUCERS */
 const initialState = {
   arr: [
-    {text: 'Прекрасная погода, светит солнце! Хочу пиво!'},
-    {text: 'Темное пиво и чипысы, члучше чем кодить!'}
+    {id: 1, text: 'Прекрасная погода, светит солнце! Хочу пиво!'},
+    {id: 2, text: 'Темное пиво и чипысы, члучше чем кодить!'}
   ]
 }
 let news_reducer = (state = initialState, action) => {
   switch(action.type){
     case SET_NEWS:
+      console.log(action)
       return {
         ...state, 
           arr: [...state.arr, {text: action.text}]
+      };
+    case DEL_NEWS:
+      console.log(action)
+      return {
+        ...state, arr: state.arr.filter(p => p.id != action.id)
       };
     default:
       return state;
@@ -29,6 +35,9 @@ const addPostActionCreator = (text)  => {
     text: text
   }
 }
+
+const delPostActionCreater = id => { return {tipe: DEL_NEWS, id: id} }
+
 /** THUNKS */
 
 const setNewsThunk = (news) => {
@@ -36,4 +45,4 @@ const setNewsThunk = (news) => {
     dispath(addPostActionCreator(news));
   }
 }
-export { setNewsThunk, addPostActionCreator }
+export { setNewsThunk, addPostActionCreator, delPostActionCreater }

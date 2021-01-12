@@ -16,5 +16,5 @@ it('NEW POST SHOULD BE ADDED', () => {
 it('POST SHOULD BE DEL', () => {
   let action = delPostActionCreater(1);
   let newState = news_reducer(initialState, action);
-  expect(newState.arr.length).toBe(2);
+  expect(newState.arr.length).toBe(1);
 })

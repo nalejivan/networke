@@ -10,13 +10,11 @@ const initialState = {
 let news_reducer = (state = initialState, action) => {
   switch(action.type){
     case SET_NEWS:
-      console.log(action)
       return {
         ...state, 
           arr: [...state.arr, {text: action.text}]
       };
     case DEL_NEWS:
-      console.log(action)
       return {
         ...state, arr: state.arr.filter(p => p.id != action.id)
       };
@@ -36,7 +34,9 @@ const addPostActionCreator = (text)  => {
   }
 }
 
-const delPostActionCreater = id => { return {tipe: DEL_NEWS, id: id} }
+const delPostActionCreater = id => { 
+  return {type: DEL_NEWS, id: id} 
+}
 
 /** THUNKS */
 

@@ -25,12 +25,9 @@ const initialApp = () => (
   );
 
 /** THUNKS */
-const initialAppThunk = () => {
-  return dispath => {
-    dispath(getUserDataThunk()).then(() => {
-      dispath(initialApp())
-    });
-  }
+const initialAppThunk = () => async (dispath) => {
+  await dispath(getUserDataThunk());
+  dispath(initialApp());
 }
 /*
   !Короткий синтаксис:
@@ -45,5 +42,4 @@ const initialAppThunk = () => {
     }
   }
 */
-
 export { initialAppThunk }

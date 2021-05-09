@@ -16,7 +16,7 @@ let news_reducer = (state = initialState, action) => {
       };
     case DEL_NEWS:
       return {
-        ...state, arr: state.arr.filter(p => p.id != action.id)
+        ...state, arr: state.arr.filter(p => p.id !== action.id)
       };
     default:
       return state;

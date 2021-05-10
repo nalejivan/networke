@@ -27,7 +27,7 @@ const users_reducer = (state = initialState, action) => {
           }else{
             return u;
           }  
-        })
+        }).reverse()
       }
     case SET_USERS:
       return {

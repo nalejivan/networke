@@ -102,29 +102,20 @@ const toggleFollowingInProgress = (id, val) => {
   } 
 }
 
-const getUserThunk = (currentPage, pageSize) => {
-  return dispatch => {
-    dispatch(toggleFetching(true));
-    usersApi.getUsers(currentPage, pageSize)
-      .then(data => {
-        dispatch(setUsers(data.items));
-        dispatch(setUsersTotalCount(data.totalCount));
-        dispatch(toggleFetching(false));
-      })
-      .catch(err => console.error(err))
-  }
+const getUserThunk = (currentPage, pageSize) => async (dispatch) => {
+  dispatch(toggleFetching(true));
+  let data = await usersApi.getUsers(currentPage, pageSize);
+  dispatch(setUsers(data.items));
+  dispatch(setUsersTotalCount(data.totalCount));
+  dispatch(toggleFetching(false));
 }
-const followThunk = (id, val) => {
-  return dispatch => {
-    dispatch(toggleFollowingInProgress(id, true));
-    usersApi.follow(id, val)
-    .then(data => {
-      if(data.resultCode === 0){
-        dispatch(toggleFollowingInProgress(id, false));
-        dispatch(followed(id, val));
-      }
-    })
-    .catch(err => console.error(err))
+
+const followThunk = (id, val) => async (dispatch) => {
+  dispatch(toggleFollowingInProgress(id, true));
+  let data = await usersApi.follow(id, val)
+  if(data.resultCode === 0){
+    dispatch(toggleFollowingInProgress(id, false));
+    dispatch(followed(id, val));
   }
 }
 

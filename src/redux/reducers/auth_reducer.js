@@ -1,6 +1,5 @@
 import { authApi } from '../../api/api';
-import { stopSubmit } from 'redux-form';
-
+import { stopSubmit, SubmissionError } from 'redux-form';
 const SET_USER_DATA = 'SET_USER_DATA';
 
 /** REDUCERS */
@@ -32,39 +31,39 @@ const setUserData = (userId, login, email, auth)  => {
 }
 
 /** THUNKS */
-const getUserDataThunk = () => (dispath) => {
-  return authApi.getUserData()
-    .then(response => {
-      if(response.resultCode === 0){
-        dispath(setUserData(response.data.id, response.data.login, response.data.email, true));
-      } else if(response.resultCode === 1){
-        dispath(setUserData(response.data.id, response.data.login, response.data.email, false));
-      } 
-    });
+const getUserDataThunk = () => async (dispath) => {
+  let response = await authApi.getUserData();
+  if(response === undefined) {
+    return false;
+  } else if(response.resultCode === 0){
+    dispath(setUserData(response.data.id, response.data.login, response.data.email, true));
+    return true;
+  } else if(response.resultCode === 1){
+    dispath(setUserData(response.data.id, response.data.login, response.data.email, false));
+    return true;
+  } 
 }
-const loginThunk = (email, password, rememberMe) => {
-  return dispath => {
-    authApi.login(email, password, rememberMe)
-      .then(response => {  
-        if(response.data.resultCode === 0){
-          dispath(getUserDataThunk());
-        } else {
-          let message = response.data.messages.lenght > 0 ? response.data.messages : "Some error";
-            dispath(stopSubmit('login', {_error: message}));
-        }      
-      });
-  }
+
+const loginThunk = (email, password, rememberMe) => async (dispath) => {
+  let response = await authApi.login(email, password, rememberMe);
+  if(response.data.resultCode === 0){
+    dispath(getUserDataThunk());
+  } else if(response.data.resultCode === 10) {
+    let message = response.data.messages.lenght > 0 ? response.data.messages : response.data.messages[0];
+    // let error = {};
+    // error.email = "no email";
+    // throw new SubmissionError(error.email)
+    dispath(stopSubmit('login', {_error: message}));
+    // dispath(stopSubmit('login', {_error: message}));
+  }      
 }
-const logOutThunk = () => {
-  return dispath => {
-    authApi.logOut()
-      .then(response => {     
-        if(response.data.resultCode === 0){
-          dispath(setUserData(null, null, null, false));
-        } else {
-          console.error(response)
-        }      
-      });
-  }
+
+const logOutThunk = () => async (dispath) => {
+  let response = await authApi.logOut();
+  if(response.data.resultCode === 0){
+    dispath(setUserData(null, null, null, false));
+  } else {
+    console.error(response)
+  }  
 }
 export { setUserData, getUserDataThunk, loginThunk, logOutThunk }

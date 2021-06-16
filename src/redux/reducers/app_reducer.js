@@ -22,28 +22,16 @@ export default initial_reducer;
 /** ACTION CREATOS */
 const initialApp = () => (
   {type: INITUAL_SUCCESS}
-  );
+);
 
 /** THUNKS */
-const initialAppThunk = () => {
-  return dispath => {
-    dispath(getUserDataThunk()).then(() => {
-      dispath(initialApp())
-    });
+const initialAppThunk = () => async (dispath) => {
+  let res = await dispath(getUserDataThunk());
+  if(res) {
+    dispath(initialApp());
+  } else {
+    console.log("ERR CCONNECT");
   }
 }
-/*
-  !Короткий синтаксис:
-  const initialAppThunk = () => dispath => {
-      dispath(getUserDataThunk()).then(result => {dispath(initialApp)});
-    }
-  }
-  !Много санок в Promise.all:
-  TODO: НЕПРАВИЛЬНАЯ РЕАЛИЗАЦИЯ Promise.all!!!
-  const initialAppThunk = () => dispath => {
-      Promise.all[dispath(getUserDataThunk())].then(result => {dispath(initialApp)});
-    }
-  }
-*/
 
 export { initialAppThunk }

@@ -26,11 +26,10 @@ const setUserProfile = userProfile => {
 };
 
 /** THUNKS */
-const getProfileThunk = (userId) =>  dispatch => {
-    return profileApi.getProfile(userId).then( response => {
-      dispatch(setUserProfile(response));
-      return response.userId;
-    });
+const getProfileThunk = (userId) =>  async (dispatch) => {
+    let response = await profileApi.getProfile(userId);
+    dispatch(setUserProfile(response));
+    return response.userId;
 }
 
 export { setUserProfile, getProfileThunk };

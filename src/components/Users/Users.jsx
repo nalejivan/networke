@@ -1,23 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
-import { Button, Row, Col, Image, Pagination } from 'react-bootstrap';
+import { Button, Row, Col, Image} from 'react-bootstrap';
 import s from './Users.module.css';
 import icon from './user.jpg';
 
-const Users = (props) => {
+const User = ({item, followingInProgress, followThunk}) => {
   return (
-    <div>
-      <Pagination>
-        {
-          props.pages.map((p, i) => 
-          <Pagination.Item key={'page_' + i} active={p === props.currentPage? true: false}
-            onClick={() => props.onPageChanged(p)}>{p} </Pagination.Item>)
-        }
-      </Pagination>
-      <div>
-          {
-            props.usersArr.map(item => 
-              <div className={s.container + " text-center"} key={item.id}>
+      <div className={s.container + " text-center"}>
                   <Row>
                     <Col xs={2} md={2}>
                       <NavLink to={'/profile/' + item.id}>
@@ -25,17 +14,27 @@ const Users = (props) => {
                         <div className={s.id}>{item.id}</div>
                         <div className={s.name}>{item.name}</div>
                       </NavLink>
-                      <Button disabled={props.followingInProgress.some(id => id === item.id)} 
+                      <Button disabled={followingInProgress.some(id => id === item.id)} 
                         variant="success"
-                        onClick={() => { props.followThunk(item.id, item.followed? false: true)}}>
+                        onClick={() => {followThunk(item.id, item.followed? false: true)}}>
                         { item.followed? 'Unfollowed': 'Followed' }
                       </Button>
                     </Col>
                   </Row>
               </div>
-            )
-          }
-      </div> 
+  )
+}
+
+const Users = ({usersArr, followingInProgress, followThunk}) => {
+  return (
+    <div>
+      {   
+        usersArr.map(item => 
+          <User key={item.id} 
+                item = {item} 
+                followingInProgress = {followingInProgress} 
+                followThunk = {followThunk}/>)
+      }
     </div>
   );
 }

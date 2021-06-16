@@ -5,6 +5,8 @@ import Prelouder from '../common/prelouder/prelouder';
 import { getUsersArrSelector, getPageSize, getTotalCount, getCurrentPage, getIsFetching, getFollowingInProgress} from '../../redux/selectros/users_selectors';
 
 import { setCurrentPage, getUserThunk, followThunk} from '../../redux/reducers/users_reducer';
+import Paginator from './Paginator'
+
 class UsersApiFn extends React.Component {
 
   componentDidMount(){
@@ -13,6 +15,7 @@ class UsersApiFn extends React.Component {
   
   onPageChanged = (p) => {
     this.props.getUserThunk(p, this.props.pageSize);
+    this.props.setCurrentPage(p);
   }
 
   render(){
@@ -26,11 +29,13 @@ class UsersApiFn extends React.Component {
     
     return <div>
       <Prelouder isFetching={this.props.isFetching}/>
-       <Users onPageChanged={this.onPageChanged} 
-              pages = {pages} 
-              usersArr ={this.props.usersArr}
-              followingInProgress={this.props.followingInProgress}
-              followThunk={this.props.followThunk}/>
+      <Paginator pages={pages}
+                 currentPage={this.props.currentPage} 
+                 onPageChanged={this.onPageChanged}/>
+      <Users usersArr ={this.props.usersArr}
+             followingInProgress={this.props.followingInProgress}
+             followThunk={this.props.followThunk}/>
+             
     </div>
   }
 

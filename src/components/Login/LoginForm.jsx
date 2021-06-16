@@ -30,8 +30,11 @@ const passInput = ({input, label, placeholder, type, meta: { touched, error, war
   </Form.Group>
 );
 
-const From = (props) => {
-    const { handleSubmit, pristine, submitting } = props;
+const From = ({ handleSubmit, pristine, submitting, error, email }) => {
+
+    if(error === false){
+      console.log(error)
+    }
     return (
       <form onSubmit={handleSubmit} className={s.form}>
         <div><Field type="text" 
@@ -47,7 +50,7 @@ const From = (props) => {
                     component={passInput}
                     validate={[required, minLenght4]}/></div>
         <div>
-          {props.error && <div className="text-danger"> {props.error} </div>}
+          {error && <div className="text-danger"> {error} </div>}
         </div>
         <div><Button disabled={pristine || submitting} variant="primary" type="submit">Sign in</Button></div>
         
@@ -56,5 +59,5 @@ const From = (props) => {
   }
   let LoginFrom = reduxForm({
       form: 'login'
-  })(From)
+  })(From);
   export default LoginFrom;

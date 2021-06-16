@@ -25,19 +25,15 @@ const setStatus = status => {
 };
 
 /** THUNKS */
-const getStatusThunk = (userId) =>  dispatch => {
-  return profileApi.getStatus(userId).then( response => {
-      dispatch(setStatus(response));
-      return response;
-    })
+const getStatusThunk = (userId) =>  async (dispatch) => {
+  let response = await profileApi.getStatus(userId);
+  dispatch(setStatus(response));
+  return response;
 }
 
-const putStatusThunk = (status) => {
-  return dispatch => {
-    profileApi.putStatus(status).then( response => {
-      if(response !== undefined && response.data.resultCode === 0) dispatch(setStatus(status));
-    })
-  }
+const putStatusThunk = (status) => async (dispatch) => {
+  let response = await profileApi.putStatus(status);
+  if(response !== undefined && response.data.resultCode === 0) dispatch(setStatus(status));
 }
 export { setStatus, getStatusThunk, putStatusThunk };
 

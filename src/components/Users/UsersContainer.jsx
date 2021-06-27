@@ -13,25 +13,28 @@ class UsersApiFn extends React.Component {
     this.props.getUserThunk(this.props.currentPage, this.props.pageSize);
   }
   
+  nextPart = (e) => {
+
+  }
+
+  prevPart = (e) => {
+
+  }
+
   onPageChanged = (p) => {
     this.props.getUserThunk(p, this.props.pageSize);
     this.props.setCurrentPage(p);
   }
 
   render(){
-    let pageCount = Math.ceil(this.props.totalCount / this.props.pageSize);
-    let pages = [];
-    for (let i = 0; i < pageCount; i++) {
-      if(i >= this.props.currentPage - 3 && i < this.props.currentPage + 10){
-        pages.push(i+1);
-      }
-    }
-    
     return <div>
       <Prelouder isFetching={this.props.isFetching}/>
-      <Paginator pages={pages}
+
+      <Paginator totalItemsCount={this.props.totalCount}
+                 pageSize={this.props.pageSize}
                  currentPage={this.props.currentPage} 
                  onPageChanged={this.onPageChanged}/>
+
       <Users usersArr ={this.props.usersArr}
              followingInProgress={this.props.followingInProgress}
              followThunk={this.props.followThunk}/>

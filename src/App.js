@@ -3,18 +3,26 @@ import s from './App.module.css';
 import { Route, withRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { initialAppThunk } from './redux/reducers/app_reducer';
-import DialogsContainer from './components/Dialogs/DialogsContainer';
+
+import withSuspense from './hoc/withSuspense';
+
 import HeaderContainer from './components/Header/HeaderContainer';
 import Nav from './components/Nav/Nav';
-import NewsContainer from './components/News/NewsContainer';
-import UsersContainer from './components/Users/UsersContainer';
-import ProfileConteiner from './components/Profile/ProfileContainer';
-import Login from './components/Login/Login';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Prelouder from './components/common/prelouder/prelouder';
+
+
+//import DialogsContainer from './components/Dialogs/DialogsContainer';
+
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const NewsContainer = React.lazy(() => import('./components/News/NewsContainer'));
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
+const ProfileConteiner = React.lazy(() => import('./components/Profile/ProfileContainer'));
+const Login = React.lazy(() => import('./components/Login/Login'));
 
 const history = createBrowserHistory();
 class App extends React.Component {
@@ -34,17 +42,16 @@ class App extends React.Component {
           <Nav/>
         </div>
         <Container className={s.content}>
-          <Route history={history} path='/dialogs'>
-            <DialogsContainer />
-          </Route>
-          <Route history={history} path='/profile/:uid?' render={ () => <ProfileConteiner />}/>
-          <Route history={history} path='/users' render={ () => <UsersContainer/>}/>
-          <Route history={history} path='/news'>
-            <NewsContainer />
-          </Route>
-          <Route history={history} path='/login'>
-            <Login/>
-          </Route>
+          <Route history={history} path='/dialogs' 
+                 render={withSuspense(DialogsContainer)}/>
+          <Route history={history} path='/profile/:uid?' 
+                 render={withSuspense(ProfileConteiner)}/>
+          <Route history={history} path='/users' 
+                 render={withSuspense(UsersContainer)}/>
+          <Route history={history} path='/news'
+                 render={withSuspense(NewsContainer)}/>
+          <Route history={history} path='/login'
+                 render={withSuspense(Login)}/>
           </Container>
       </div>
     );

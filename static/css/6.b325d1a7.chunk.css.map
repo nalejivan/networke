@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/News/News.module.css"],"names":[],"mappings":"AAAA,kBACI,aACJ,CACA,kBACI,kBACJ","file":"6.b325d1a7.chunk.css","sourcesContent":[".news{\n    color: rgb(73, 73, 73);\n}\n.form {\n    margin-bottom: 10px;\n}"]}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/Login/Login.module.css"],"names":[],"mappings":"AAAA,mBACE,UAAW,CACX,eACF","file":"5.47a815d8.chunk.css","sourcesContent":[".form {\n  margin: 5px;\n  max-width: 300px;\n}"]}

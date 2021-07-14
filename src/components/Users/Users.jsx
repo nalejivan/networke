@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom'
 import { Button, Row, Col, Image} from 'react-bootstrap';
 import s from './Users.module.css';
-import icon from './user.jpg';
+import icon from './user.png';
 
 const User = ({item, followingInProgress, followThunk}) => {
   return (

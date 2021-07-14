@@ -2,7 +2,6 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 const From = (props) => {
-    console.info("RENDER: From", props.initialized)
     const { handleSubmit, initialValues } = props;
     return (
       <form onSubmit={handleSubmit}>
@@ -19,7 +18,6 @@ const From = (props) => {
       </form>
     )
   }
-  //! enableReinitialize нужно почитать про свойство
   let StatusForm = reduxForm({ 
       form: 'myStatus'
   })(From)

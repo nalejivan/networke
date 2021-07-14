@@ -1,13 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Redirect, withRouter } from "react-router";
-import { setUserProfile, getProfileThunk } from '../../redux/reducers/profile_reducer';
-import { setStatus, getStatusThunk, putStatusThunk } from '../../redux/reducers/status_reducer';
-import { getUserProfileSelector, getStatusSelector, getUserIdSelector } from '../../redux/selectros/profile_selectors';
-import ProfileInfo from './ProfileStatus/ProfileInfo';
-import { compose } from 'redux';
-import Prelouder from '../common/prelouder/prelouder';
-import ProfileStatusWithHooks from './ProfileStatus/ProfileStatusWithHooks';
+import React from 'react'
+import { connect } from 'react-redux'
+import { Redirect, withRouter } from "react-router"
+import { setUserProfile, getProfileThunk } from '../../redux/reducers/profile_reducer'
+import { setStatus, getStatusThunk, putStatusThunk } from '../../redux/reducers/status_reducer'
+import { getUserProfileSelector, getStatusSelector, getUserIdSelector } from '../../redux/selectros/profile_selectors'
+import ProfileInfo from './ProfileStatus/ImageProfile'
+import { compose } from 'redux'
+import Prelouder from '../common/prelouder/prelouder'
+import ProfileStatus from './ProfileStatus/ProfileStatus'
+import { Container, Row, Col } from 'react-bootstrap'
 
 class ProfileConteiner extends React.Component {
   constructor(props){
@@ -17,6 +18,7 @@ class ProfileConteiner extends React.Component {
       editStatus: false
     }
   }
+
   componentDidMount(){
     let uid = this.props.match.params.uid;
     let userId = this.props.userId;
@@ -47,14 +49,22 @@ class ProfileConteiner extends React.Component {
         ? 
           <Redirect to={"/login"}/> 
         : 
-          <div>
-            <ProfileStatusWithHooks 
-              status={this.props.status} 
-              putStatus={this.props.putStatusThunk}
-              setStatus={this.props.setStatus}
-              editStatus={this.state.editStatus}/>
-            <ProfileInfo userProfile={this.props.userProfile}/>
-          </div>
+        <Container>
+          <Row className="justify-content-md-center">  
+            <Col xs lg="3">
+              <ProfileInfo userProfile={this.props.userProfile}/>
+            </Col>
+            <Col xs lg="9">
+              <h4>fullName: {this.props.userProfile.fullName}</h4>
+              <h5>aboutMe: {this.props.userProfile.aboutMe}</h5>
+              <ProfileStatus 
+                  status={this.props.status} 
+                  putStatus={this.props.putStatusThunk}
+                  setStatus={this.props.setStatus}
+                  editStatus={this.state.editStatus}/>
+            </Col>  
+          </Row>    
+        </Container>
       
     )
   }

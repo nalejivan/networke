@@ -1,0 +1,15 @@
+.img {
+  width: 150px;
+  height: 150px;
+}
+.imgBox{
+  padding: 10px;
+  border: 1px #fff solid;
+  margin: 10px;
+}
+.changePhoto{
+  position: relative;
+  text-align: center;
+  color: #fff3cd;
+  cursor: pointer;
+}

@@ -15,9 +15,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Prelouder from './components/common/prelouder/prelouder';
 
-
-//import DialogsContainer from './components/Dialogs/DialogsContainer';
-
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const NewsContainer = React.lazy(() => import('./components/News/NewsContainer'));
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
